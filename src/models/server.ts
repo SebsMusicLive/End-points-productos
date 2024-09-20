@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import routesProducto from '../routes/producto';
-
+import db from '../db/connection';
+import cors from 'cors';
 class server{
     private app: express.Application;
     private port:string;
@@ -10,6 +11,7 @@ class server{
         this.listen();
         this.midleWares();
         this.routes();
+        this.dbConnection();
     }
 
     listen(){
@@ -31,6 +33,19 @@ class server{
     midleWares(){
         //parseamos el body
         this.app.use(express.json());
+
+        //cors
+        this.app.use(cors());
+    }
+
+    async dbConnection(){
+        try{
+            await db.authenticate();
+            console.log('Base de datos conectada');
+        }catch(error){
+            console.log(error);
+            console.log('Error al conectarse a la base de datos');
+        }
     }
 }
 
