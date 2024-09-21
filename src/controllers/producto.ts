@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Producto from '../models/producto';
 
 export const getProducts = async (req: Request, res: Response) => {
-
     const listProducts = await Producto.findAll();
     
     res.json(listProducts);
